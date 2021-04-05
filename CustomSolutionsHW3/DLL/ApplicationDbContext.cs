@@ -6,11 +6,14 @@ using System.Text;
 
 namespace DAL
 {
-    public interface IApplicationDbContex
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+
+        }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<HiringHistorie> HiringHistories { get; set; }
-        public int SaveChanges();
     }
 }

@@ -8,9 +8,9 @@ namespace BLL.Services.DataProviderService
 {
     public class DataProviderProfilerService : IDataProviderProfilerService
     {
-        private readonly IApplicationDbContex _dbContext;
+        private readonly IApplicationDbContext _dbContext;
 
-        public DataProviderProfilerService(IApplicationDbContex dbContext)
+        public DataProviderProfilerService(IApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

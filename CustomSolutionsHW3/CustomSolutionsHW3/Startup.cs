@@ -1,5 +1,7 @@
 using BLL.Services.DataProviderService;
 using DAL;
+using DAL.Entities;
+using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,9 +25,9 @@ namespace CustomSolutionsHW3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContex>(opt => opt.UseSqlServer(Configuration["SqlServerConnectionString"], b => b.MigrationsAssembly("DAL")));
+            services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(Configuration["SqlServerConnectionString"], b => b.MigrationsAssembly("DAL")));
 
-            services.AddScoped<IApplicationDbContex, ApplicationDbContex>();
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IDataProviderProfilerService, DataProviderProfilerService>();
 
             services.AddControllersWithViews();
@@ -79,5 +81,24 @@ namespace CustomSolutionsHW3
                 }
             });
         }
+
+        //private void Seed(IApplicationBuilder app)
+        //{
+        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+
+        //    using (var scope = scopeFactory.CreateScope())
+        //    {
+        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        //        var employes = Builder<Employee>.CreateListOfSize(5000)
+        //            .All()
+        //                .With(c => c.Name = Faker.Name.First())
+        //                .With(c => c.LastName = Faker.Name.Last())
+        //            .Build();
+
+        //        dbContext.Employees.AddOrUpdate(c => c.Id, employes);
+        //    }
+
+        //}
+
     }
 }

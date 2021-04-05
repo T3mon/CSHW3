@@ -10,7 +10,7 @@ namespace DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
-        public string SecondName { get; set; }
+        public string LastName { get; set; }
         public HiringHistorie HiringHistories { get; set; }
     }
 }
