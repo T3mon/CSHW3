@@ -1,3 +1,4 @@
+using BLL.Services.DataProviderService;
 using DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,7 @@ namespace CustomSolutionsHW3
             services.AddDbContext<ApplicationDbContex>(opt => opt.UseSqlServer(Configuration["SqlServerConnectionString"], b => b.MigrationsAssembly("DAL")));
 
             services.AddScoped<IApplicationDbContex, ApplicationDbContex>();
+            services.AddScoped<IDataProviderProfilerService, DataProviderProfilerService>();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
