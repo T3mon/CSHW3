@@ -1,7 +1,7 @@
 using BLL.Services.DataProviderService;
+using Bogus;
 using DAL;
 using DAL.Entities;
-using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System.Linq;
 
 namespace CustomSolutionsHW3
 {
@@ -25,6 +27,10 @@ namespace CustomSolutionsHW3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new OpenApiInfo() { Title = "swagger api", Version = "v1" });
+            });
             services.AddDbContext<ApplicationDbContext>(opt => opt.UseSqlServer(Configuration["SqlServerConnectionString"], b => b.MigrationsAssembly("DAL")));
 
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
@@ -44,6 +50,11 @@ namespace CustomSolutionsHW3
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
             }
             else
             {
@@ -51,7 +62,7 @@ namespace CustomSolutionsHW3
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            Seed(app);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -82,23 +93,36 @@ namespace CustomSolutionsHW3
             });
         }
 
-        //private void Seed(IApplicationBuilder app)
-        //{
-        //    var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+        private void Seed(IApplicationBuilder app)
+        {
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
 
-        //    using (var scope = scopeFactory.CreateScope())
-        //    {
-        //        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        //        var employes = Builder<Employee>.CreateListOfSize(5000)
-        //            .All()
-        //                .With(c => c.Name = Faker.Name.First())
-        //                .With(c => c.LastName = Faker.Name.Last())
-        //            .Build();
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Employees.FirstOrDefault(u => u.Name == "Name 1") == null)
+                {
 
-        //        dbContext.Employees.AddOrUpdate(c => c.Id, employes);
-        //    }
+                    for (int i = 1; i <= 5000; i++)
+                    {
+                        dbContext.Employees.Add(new Employee { Name = "Name " + i, LastName = "LastName " + i });
+                        dbContext.SaveChanges();
+                        for (int j = 1; j < 2; j++)
+                        {
+                            dbContext.HiringHistories.Add(new HiringHistorie { CompanyName = "Company " + (i + j - 1), EmployeId = i });
+                            dbContext.SaveChanges();
+                            for (int k = 0; k < 2; k++)
+                            {
+                                dbContext.Achievements.Add(new Achievement { Dscription = "Achievement " + (i + k - 1), HiringHistorieId = i });
+                            }
+                        }
+                    }
 
-        //}
+                }
+                dbContext.SaveChanges();
+            }
+
+        }
 
     }
 }

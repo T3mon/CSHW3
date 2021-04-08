@@ -8,7 +8,6 @@ namespace BLL.Services.DataProviderService
 {
     public interface IDataProviderProfilerService
     {
-        public Task<string> ComparePerformanceLinq();
-        public Task<string> ComparePerformanceSql();
+        public string ComparePerformance();
     }
 }

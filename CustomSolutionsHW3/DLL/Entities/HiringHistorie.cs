@@ -11,5 +11,7 @@ namespace DAL.Entities
         public int Id { get; set; }
         public string CompanyName { get; set; }
         public Achievement Achievements { get; set; }
+        public int EmployeId { get; set; }
+
     }
 }

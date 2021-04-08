@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContexModelSnapshot : ModelSnapshot
+    [Migration("20210407190659_foreign-keys")]
+    partial class foreignkeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +31,10 @@ namespace DAL.Migrations
                     b.Property<string>("Dscription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HiringHistorieId")
-                        .HasColumnType("int");
+                    b.Property<string>("HiringHistorieId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HiringHistorieId")
-                        .IsUnique();
 
                     b.ToTable("Achievements");
                 });
@@ -70,24 +69,20 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AchievementsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployeId")
-                        .HasColumnType("int");
+                    b.Property<string>("EmployeId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("HiringHistories");
-                });
+                    b.HasIndex("AchievementsId");
 
-            modelBuilder.Entity("DAL.Entities.Achievement", b =>
-                {
-                    b.HasOne("DAL.Entities.HiringHistorie", null)
-                        .WithOne("Achievements")
-                        .HasForeignKey("DAL.Entities.Achievement", "HiringHistorieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("HiringHistories");
                 });
 
             modelBuilder.Entity("DAL.Entities.Employee", b =>
@@ -101,6 +96,10 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Entities.HiringHistorie", b =>
                 {
+                    b.HasOne("DAL.Entities.Achievement", "Achievements")
+                        .WithMany()
+                        .HasForeignKey("AchievementsId");
+
                     b.Navigation("Achievements");
                 });
 #pragma warning restore 612, 618
