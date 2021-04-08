@@ -17,7 +17,7 @@ namespace BLL.Infrastucture
             CreateMap<HiringHistorie, HiringHistorieDto>();
             CreateMap<HiringHistorieDto, HiringHistorie>();
 
-            CreateMap<HiringHistorie, HiringHistorieDto>();
+            CreateMap<Achievement, AchievementDto>();
             CreateMap<HiringHistorieDto, HiringHistorie>();
 
 
