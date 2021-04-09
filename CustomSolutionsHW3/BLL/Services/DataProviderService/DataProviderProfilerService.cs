@@ -25,7 +25,7 @@ namespace BLL.Services.DataProviderService
         public string GetEmployeesLinq()
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
-            var res = _dbContext.Employees.Include(e => e.HiringHistories).ThenInclude(a => a.Achievements).FirstOrDefault();
+            var res = _dbContext.Employees.Include(e => e.HiringHistories).ThenInclude(a => a.Achievements).ToList();
 
             return timer.ElapsedMilliseconds.ToString();
         }
@@ -34,9 +34,9 @@ namespace BLL.Services.DataProviderService
         {
             var timer = System.Diagnostics.Stopwatch.StartNew();
             
-            var sql = string.Format("SELECT Employees.id, Employees.Name, Employees.LastName, HiringHistories.CompanyName, Achievements.Dscription FROM Employees INNER JOIN HiringHistories on(Employees.id = HiringHistories.EmployeId) INNER JOIN Achievements ON(HiringHistories.Id = Achievements.HiringHistorieId)");
+            var sql = string.Format(@"SELECT Employees.id, Employees.Name, Employees.LastName, HiringHistories.CompanyName, Achievements.Dscription FROM Employees INNER JOIN HiringHistories on(Employees.id = HiringHistories.EmployeId) INNER JOIN Achievements ON(HiringHistories.Id = Achievements.HiringHistorieId)");
 
-            var res = _dbContext.Employees.FromSqlRaw(sql);
+            var res = _dbContext.Employees.FromSqlRaw(sql).ToList();
 
             return timer.ElapsedMilliseconds.ToString();
         }

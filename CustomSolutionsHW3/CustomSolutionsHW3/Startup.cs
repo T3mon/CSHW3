@@ -103,7 +103,7 @@ namespace CustomSolutionsHW3
                 if (dbContext.Employees.FirstOrDefault(u => u.Name == "Name 1") == null)
                 {
 
-                    for (int i = 1; i <= 5000; i++)
+                    for (int i = 1; i <= 50; i++)
                     {
                         dbContext.Employees.Add(new Employee { Name = "Name " + i, LastName = "LastName " + i });
                         dbContext.SaveChanges();

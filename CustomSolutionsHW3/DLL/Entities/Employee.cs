@@ -11,6 +11,6 @@ namespace DAL.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public HiringHistorie HiringHistories { get; set; }
+        public ICollection<HiringHistorie> HiringHistories { get; set; }
     }
 }

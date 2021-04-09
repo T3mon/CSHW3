@@ -10,7 +10,7 @@ namespace DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string CompanyName { get; set; }
-        public Achievement Achievements { get; set; }
+        public ICollection<Achievement> Achievements { get; set; }
         public int EmployeId { get; set; }
 
     }
