@@ -13,6 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Faker.Net" Version="1.5.126" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -23,9 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.1" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>
