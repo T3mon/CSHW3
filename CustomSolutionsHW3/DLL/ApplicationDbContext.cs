@@ -12,7 +12,7 @@ namespace DAL
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
+            
         }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<Employee> Employees { get; set; }
